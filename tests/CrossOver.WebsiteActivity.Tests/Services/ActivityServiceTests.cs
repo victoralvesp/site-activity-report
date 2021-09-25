@@ -29,22 +29,25 @@ namespace CrossOver.WebsiteActivity.Tests.Services
         {
             // Given a set of activities that happened in the site
             // And all activities have been registered
-            var recordingService = _provider.GetRequiredService<RecordingService>();
+            var recordingService = GetRecordingService();
             RegisterSeveralActivities(recordingService, activities);
 
-            var purgeService = _provider.GetService<IEnumerable<IHostedService>>()!.First(hs => hs is JanitorHostedService);
+            var purgeService = GetPurgeService();
             await purgeService.StartAsync(default);
             await Task.Delay(TimeSpan.FromSeconds(1));
 
             //When we get the total value for activities
-            var reporting = _provider.GetRequiredService<ReportingService>();
+            var reporting = GetReportingService();
             var total = reporting.GetTotal(key);
-            
+
             //Then we should get the expected value
             total.Should().Be(expectedTotal);
 
         }
 
+        private ReportingService GetReportingService() => _provider.GetRequiredService<ReportingService>();
+        private RecordingService GetRecordingService() => _provider.GetRequiredService<RecordingService>();
+        private IHostedService GetPurgeService() => _provider.GetService<IEnumerable<IHostedService>>()!.First(hs => hs is JanitorHostedService);
 
         protected void PrepareRepository(ActivityRepository repository, int activitiesToRegister)
         {
