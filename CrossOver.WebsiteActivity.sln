@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3B02FC81-BF0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossOver.WebsiteActivity.Api", "src\CrossOver.WebsiteActivity.Api\CrossOver.WebsiteActivity.Api.csproj", "{6AD7ADA6-97DC-4F0A-B6E7-C4123DC09B69}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FEBFF8A0-E63D-4161-A6EE-18F22BBF5279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossOver.WebsiteActivity.Api.Tests", "tests\CrossOver.WebsiteActivity.Api.Tests\CrossOver.WebsiteActivity.Api.Tests.csproj", "{13ACD3B9-9651-4501-960B-0B18630E546D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,13 @@ Global
 		{6AD7ADA6-97DC-4F0A-B6E7-C4123DC09B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AD7ADA6-97DC-4F0A-B6E7-C4123DC09B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AD7ADA6-97DC-4F0A-B6E7-C4123DC09B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13ACD3B9-9651-4501-960B-0B18630E546D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13ACD3B9-9651-4501-960B-0B18630E546D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13ACD3B9-9651-4501-960B-0B18630E546D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13ACD3B9-9651-4501-960B-0B18630E546D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6AD7ADA6-97DC-4F0A-B6E7-C4123DC09B69} = {3B02FC81-BF05-4959-BF84-828D44A87655}
+		{13ACD3B9-9651-4501-960B-0B18630E546D} = {FEBFF8A0-E63D-4161-A6EE-18F22BBF5279}
 	EndGlobalSection
 EndGlobal
