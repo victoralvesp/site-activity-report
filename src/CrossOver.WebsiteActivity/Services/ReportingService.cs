@@ -10,11 +10,11 @@ namespace CrossOver.WebsiteActivity.Services
 {
     public class ReportingService
     {
-        private readonly ActivityRepository _repo;
+        private readonly IActivityRepository _repo;
         private readonly ConcurrentDictionary<string, long> _totalValuesIndex = new();
         private readonly ConcurrentDictionary<string, bool> _isProcessCycleRunningForKey = new();
 
-        public ReportingService(ActivityRepository repo)
+        public ReportingService(IActivityRepository repo)
         {
             _repo = repo;
             _repo.OnAdded += (_, activity) => ProcessActivityAdded(activity);
@@ -34,7 +34,7 @@ namespace CrossOver.WebsiteActivity.Services
         {
             var key = activity.Key;
             var value = activity.Value;
-            _totalValuesIndex.AddOrUpdate(key, _ => - value, (_, currentTotal) => currentTotal - value);
+            _totalValuesIndex.AddOrUpdate(key, _ => -value, (_, currentTotal) => currentTotal - value);
         }
 
         private void ProcessActivityAdded(Activity activity)
@@ -50,7 +50,15 @@ namespace CrossOver.WebsiteActivity.Services
             _totalValuesIndex.AddOrUpdate(key, (_) => valueForKey, (_, currentTotal) => currentTotal + valueForKey);
         }
 
-        public long GetTotal(string key) => _totalValuesIndex.GetValueOrDefault(key, 0);
+        public long GetTotal(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException($"'{nameof(key)}' não pode ser nulo nem espaço em branco.", nameof(key));
+            }
+
+            return _totalValuesIndex.GetValueOrDefault(key, 0);
+        }
 
     }
 }

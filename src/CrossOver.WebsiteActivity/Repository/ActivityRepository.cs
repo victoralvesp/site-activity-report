@@ -7,7 +7,8 @@ using CrossOver.WebsiteActivity.Models;
 
 namespace CrossOver.WebsiteActivity.Repository
 {
-    public class ActivityRepository
+
+    public class ActivityRepository : IActivityRepository
     {
         ConcurrentDictionary<string, Activity[]> _activities = new();
         public event EventHandler<Activity>? OnAdded;

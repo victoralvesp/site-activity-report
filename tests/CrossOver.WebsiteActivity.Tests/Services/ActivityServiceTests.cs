@@ -2,76 +2,69 @@ using System.Diagnostics;
 using CrossOver.WebsiteActivity.Repository;
 using CrossOver.WebsiteActivity.Services;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CrossOver.WebsiteActivity.Tests.Services
 {
     public class ActivityServiceTests
     {
+        protected const string TESTING_KEY = "any";
         public ActivityServiceTests()
         {
             _bigRepository = new ActivityRepository();
             _biggerRepository = new ActivityRepository();
             PrepareRepository(_bigRepository, 250);
             PrepareRepository(_biggerRepository, 2500);
+            var services = new ServiceCollection();
+            services.RegisterActivityServices();
+            _provider = services.BuildServiceProvider();
         }
-        [Fact]
-        public void Register_Should_Have_Constant_Response_TimeAsync()
+
+        [Theory]
+        [MemberData(nameof(ExampleActivities))]
+        public async Task Services_Should_Give_Example_ValuesAsync(string key, Models.Activity[] activities, int expectedTotal)
         {
-            //Given a website with hundreds of activities recorded and another with millions
-            var activityServiceWithHundreds = new RecordingService(_bigRepository);
-            var activityServiceWithMillions = new RecordingService(_biggerRepository);
-            //When registering a new activity on each site
-            var timeWithHundreds = checkTimeToRegister(activityServiceWithHundreds);
-            var timeWithMillions = checkTimeToRegister(activityServiceWithMillions);
+            // Given a set of activities that happened in the site
+            // And all activities have been registered
+            var recordingService = _provider.GetRequiredService<RecordingService>();
+            RegisterSeveralActivities(recordingService);
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
-            //Then
-            timeWithHundreds.Should().BeCloseTo(timeWithMillions, 5, "time to register is O(1) up to 5 milli");
+            //When we get the total value for activities
+            var reporting = _provider.GetRequiredService<ReportingService>();
+            var total = reporting.GetTotal(key);
+            //Then we should get the expected value
+            total.Should().Be(expectedTotal);
 
-            long checkTimeToRegister(RecordingService service)
-            {
-                var watch = new Stopwatch();
-                watch.Start();
-                var (key, value) = RandomActivity();
-                service.Register(key, value);
-                watch.Stop();
-                return watch.ElapsedMilliseconds;
-            }
-        }
-        [Fact]
-        public void Get_Total_Should_Have_Constant_Response_Time()
-        {
-            //Given a website with hundreds of activities recorded and another with millions
-            var reportingHundredsService = new ReportingService(_bigRepository);
-            var reportingMillionsService = new ReportingService(_biggerRepository);
-
-            //When getting the total of a activity on each service
-            var timeWithHundreds = checkTimeToGetTotal(reportingHundredsService);
-            var timeWithMillions = checkTimeToGetTotal(reportingMillionsService);
-
-            //Then
-            timeWithHundreds.Should().BeCloseTo(timeWithMillions, 5, "time to get total is O(1) up to 5 milli");
-
-            long checkTimeToGetTotal(ReportingService service)
-            {
-                var watch = new Stopwatch();
-                watch.Start();
-                var total = service.GetTotal("any");
-                watch.Stop();
-                return watch.ElapsedMilliseconds;
-            }
         }
 
-        private void PrepareRepository(ActivityRepository repository, int activitiesToRegister)
+
+        protected void PrepareRepository(ActivityRepository repository, int activitiesToRegister)
         {
             RegisterSeveralActivities(repository, activitiesToRegister);
         }
 
         static Random _random = new();
-        private ActivityRepository _bigRepository;
-        private ActivityRepository _biggerRepository;
+        protected ActivityRepository _bigRepository;
+        protected ActivityRepository _biggerRepository;
+        private ServiceProvider _provider;
 
-        private void RegisterSeveralActivities(ActivityRepository repository, int activitiesToRegister, string key = "any")
+        protected void RegisterSeveralActivities(ActivityRepository repository, string key = TESTING_KEY, params Models.Activity[] activitiesToRegister)
+        {
+            Parallel.ForEach(activitiesToRegister, (activity, state) =>
+            {
+                repository.PushActivity(activity);
+            });
+        }
+        protected void RegisterSeveralActivities(RecordingService service, params Models.Activity[] activitiesToRegister)
+        {
+            Parallel.ForEach(activitiesToRegister, (activity, state) =>
+            {
+                service.Register(activity.Key, activity.Value);
+            });
+        }
+        private void RegisterSeveralActivities(ActivityRepository repository, int activitiesToRegister, string key = TESTING_KEY)
         {
             Parallel.For(0, activitiesToRegister, (ind, state) =>
             {
@@ -80,12 +73,39 @@ namespace CrossOver.WebsiteActivity.Tests.Services
             });
         }
 
-        private static Models.Activity RandomActivity(string key = "any")
+        protected static Models.Activity RandomActivity(string key = TESTING_KEY)
         {
             return new(
                 Key: key,
                 Value: _random.Next(2000)
             );
+        }
+
+        protected static IEnumerable<object[]> ExampleActivities()
+        {
+            var key = TESTING_KEY;
+            var testingExample = new[] {
+                pastActivity(16, TimeSpan.FromMinutes(781)),
+                pastActivity(5, TimeSpan.FromMinutes(510)),
+                pastActivity(32, TimeSpan.FromMinutes(50)),
+                pastActivity(4, TimeSpan.FromMinutes(3)),
+            };
+            yield return new object[] { key, testingExample, 41 };
+
+            testingExample = testingExample.Append(pastActivity(40, TimeSpan.FromHours(20))).ToArray();
+            yield return new object[] { key, testingExample, 41 };
+            testingExample = testingExample.Append(pastActivity(20, TimeSpan.FromHours(1))).ToArray();
+            yield return new object[] { key, testingExample, 61 };
+            testingExample = testingExample.Append(pastActivity(13, TimeSpan.FromHours(16))).ToArray();
+            yield return new object[] { key, testingExample, 61 };
+            testingExample = testingExample.Append(pastActivity(11, TimeSpan.FromHours(.5))).ToArray();
+            yield return new object[] { key, testingExample, 72 };
+
+            Models.Activity pastActivity(int value, TimeSpan pastTime)
+            => new(key, value)
+            {
+                RegisterDate = DateTime.UtcNow - pastTime
+            };
         }
     }
 }

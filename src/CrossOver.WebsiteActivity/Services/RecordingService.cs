@@ -12,15 +12,20 @@ namespace CrossOver.WebsiteActivity.Services
     {
         ConcurrentQueue<Activity> _toProcessQueue = new();
         private bool _isProcessCycleRunning;
-        private ActivityRepository _repo;
+        private IActivityRepository _repo;
 
-        public RecordingService(ActivityRepository repo)
+        public RecordingService(IActivityRepository repo)
         {
             _repo = repo;
         }
 
         public void Register(string key, int activityValue, CancellationToken cancellationToken = default)
         {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException($"'{nameof(key)}' não pode ser nulo nem espaço em branco.", nameof(key));
+            }
+
             var activity = new Activity(key, activityValue);
 
             _toProcessQueue.Enqueue(activity);
