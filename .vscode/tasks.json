@@ -11,6 +11,35 @@
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/tests/CrossOver.WebsiteActivity.Tests/CrossOver.WebsiteActivity.Tests.csproj",
+                "--collect:\"XPlat Code Coverage\"",
+                "--results-directory:TestResults"
+
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": false
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
             "problemMatcher": "$msCompile"
         },
         {

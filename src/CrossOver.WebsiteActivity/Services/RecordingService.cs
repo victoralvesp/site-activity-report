@@ -8,13 +8,13 @@ using CrossOver.WebsiteActivity.Repository;
 
 namespace CrossOver.WebsiteActivity.Services
 {
-    public class ActivityRecordingService
+    public class RecordingService
     {
         ConcurrentQueue<Activity> _toProcessQueue = new();
         private bool _isProcessCycleRunning;
         private ActivityRepository _repo;
 
-        public ActivityRecordingService(ActivityRepository repo)
+        public RecordingService(ActivityRepository repo)
         {
             _repo = repo;
         }
