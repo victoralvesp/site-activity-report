@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "CrossOver.WebsiteActivity.Api": {
+    "CrossOver.WebsiteActivity": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

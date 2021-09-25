@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CrossOver.WebsiteActivity.Api.Models;
+using CrossOver.WebsiteActivity.Models;
 
-namespace CrossOver.WebsiteActivity.Api.Repository
+namespace CrossOver.WebsiteActivity.Repository
 {
     public class ActivityRepository
     {
