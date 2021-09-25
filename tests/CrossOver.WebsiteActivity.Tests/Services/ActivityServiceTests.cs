@@ -1,8 +1,10 @@
 using System.Diagnostics;
+using CrossOver.WebsiteActivity.HostedServices;
 using CrossOver.WebsiteActivity.Repository;
 using CrossOver.WebsiteActivity.Services;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Xunit;
 
 namespace CrossOver.WebsiteActivity.Tests.Services
@@ -28,12 +30,16 @@ namespace CrossOver.WebsiteActivity.Tests.Services
             // Given a set of activities that happened in the site
             // And all activities have been registered
             var recordingService = _provider.GetRequiredService<RecordingService>();
-            RegisterSeveralActivities(recordingService);
+            RegisterSeveralActivities(recordingService, activities);
+
+            var purgeService = _provider.GetService<IEnumerable<IHostedService>>()!.First(hs => hs is JanitorHostedService);
+            await purgeService.StartAsync(default);
             await Task.Delay(TimeSpan.FromSeconds(1));
 
             //When we get the total value for activities
             var reporting = _provider.GetRequiredService<ReportingService>();
             var total = reporting.GetTotal(key);
+            
             //Then we should get the expected value
             total.Should().Be(expectedTotal);
 
@@ -61,7 +67,7 @@ namespace CrossOver.WebsiteActivity.Tests.Services
         {
             Parallel.ForEach(activitiesToRegister, (activity, state) =>
             {
-                service.Register(activity.Key, activity.Value);
+                service.Register(activity.Key, activity.Value, activity.RegisterDate);
             });
         }
         private void RegisterSeveralActivities(ActivityRepository repository, int activitiesToRegister, string key = TESTING_KEY)

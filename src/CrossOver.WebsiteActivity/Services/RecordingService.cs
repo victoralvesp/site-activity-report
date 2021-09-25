@@ -19,14 +19,18 @@ namespace CrossOver.WebsiteActivity.Services
             _repo = repo;
         }
 
-        public void Register(string key, int activityValue, CancellationToken cancellationToken = default)
+        public void Register(string key, int activityValue, DateTime? registrationTime = null , CancellationToken cancellationToken = default)
         {
+            registrationTime ??= DateTime.UtcNow;
             if (string.IsNullOrWhiteSpace(key))
             {
                 throw new ArgumentException($"'{nameof(key)}' não pode ser nulo nem espaço em branco.", nameof(key));
             }
 
-            var activity = new Activity(key, activityValue);
+            var activity = new Activity(key, activityValue)
+            {
+                RegisterDate = registrationTime.Value
+            };
 
             _toProcessQueue.Enqueue(activity);
             EnsureProcessingIsStarted(cancellationToken);

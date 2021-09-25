@@ -31,10 +31,16 @@ namespace CrossOver.WebsiteActivity.HostedServices
         private void PurgeOlderActivities(string key)
         {
             var activities = _repository.GetActivities(key);
-            foreach (var activity in activities.Where(act => act.RegisterDate - DateTime.UtcNow > ActivityHoldingTime))
+            foreach (var activity in activities.Where(act => IsOldActivity(act)))
             {
                 _repository.PurgeActivity(activity);
             }
+        }
+
+        private bool IsOldActivity(Models.Activity act)
+        {
+            var activityAge = DateTime.UtcNow - act.RegisterDate;
+            return activityAge >= ActivityHoldingTime;
         }
     }
 }
