@@ -7,12 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
 
-namespace CrossOver.WebsiteActivity.Tests.Services
+namespace CrossOver.WebsiteActivity.Tests
 {
-    public class ActivityServiceTests
+    public class ActivityTests
     {
         protected const string TESTING_KEY = "any";
-        public ActivityServiceTests()
+        public ActivityTests()
         {
             _bigRepository = new ActivityRepository();
             _biggerRepository = new ActivityRepository();

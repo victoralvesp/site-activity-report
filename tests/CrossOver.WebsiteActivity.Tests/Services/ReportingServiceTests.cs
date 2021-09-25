@@ -10,7 +10,7 @@ using Xunit;
 
 namespace CrossOver.WebsiteActivity.Tests.Services
 {
-    public class ReportingServiceTests : ActivityServiceTests
+    public class ReportingServiceTests : ActivityTests
     {
         [Fact]
         public void Get_Total_Should_Have_Constant_Response_Time()

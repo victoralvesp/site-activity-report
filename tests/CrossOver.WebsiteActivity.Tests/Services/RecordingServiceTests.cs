@@ -6,7 +6,7 @@ using Xunit;
 
 namespace CrossOver.WebsiteActivity.Tests.Services
 {
-    public class RecordingServiceTests : ActivityServiceTests
+    public class RecordingServiceTests : ActivityTests
     {
         
         [Fact]

@@ -10,7 +10,7 @@ using Xunit;
 
 namespace CrossOver.WebsiteActivity.Tests.Services
 {
-    public class PurgeActivityTests : ActivityServiceTests
+    public class PurgeActivityTests : ActivityTests
     {
         [Theory]
         [MemberData(nameof(ExampleActivities))]

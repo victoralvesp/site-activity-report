@@ -18,8 +18,11 @@ namespace CrossOver.WebsiteActivity.Repository
         public void PurgeActivity(Activity activity)
         {
             var key = activity.Key;
-            OnRemoved?.Invoke(this, activity);
-            _activities.AddOrUpdate(key, (_) => new Activity[] { }, (_, currentValues) => currentValues.Where(act => act != activity).ToArray());
+            if (_activities.GetValueOrDefault(key)?.Contains(activity) ?? false)
+            {
+                OnRemoved?.Invoke(this, activity);
+                _activities.AddOrUpdate(key, (_) => new Activity[] { }, (_, currentValues) => currentValues.Where(act => act != activity).ToArray());
+            }
         }
         public void PushActivity(Activity activity)
         {
