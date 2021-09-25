@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3B02FC81-BF05-4959-BF84-828D44A87655}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossOver.WebsiteActivity.Api", "src\CrossOver.WebsiteActivity.Api\CrossOver.WebsiteActivity.Api.csproj", "{6AD7ADA6-97DC-4F0A-B6E7-C4123DC09B69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossOver.WebsiteActivity", "src\CrossOver.WebsiteActivity\CrossOver.WebsiteActivity.csproj", "{6AD7ADA6-97DC-4F0A-B6E7-C4123DC09B69}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FEBFF8A0-E63D-4161-A6EE-18F22BBF5279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossOver.WebsiteActivity.Api.Tests", "tests\CrossOver.WebsiteActivity.Api.Tests\CrossOver.WebsiteActivity.Api.Tests.csproj", "{13ACD3B9-9651-4501-960B-0B18630E546D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossOver.WebsiteActivity.Tests", "tests\CrossOver.WebsiteActivity.Tests\CrossOver.WebsiteActivity.Tests.csproj", "{13ACD3B9-9651-4501-960B-0B18630E546D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
