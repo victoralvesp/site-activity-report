@@ -14,7 +14,7 @@ namespace CrossOver.WebsiteActivity.Tests.Services
     {
         [Theory]
         [MemberData(nameof(ExampleActivities))]
-        public async Task Should_Purge_Older_ActivitiesAsync(string key, Activity[] activities, int expectedTotal)
+        public async Task Should_Purge_Older_Activities(string key, Activity[] activities, int _)//Reusing test examples in purge
         {
             //Given a set of activities
             var repository = new ActivityRepository();
@@ -30,7 +30,7 @@ namespace CrossOver.WebsiteActivity.Tests.Services
         }
 
         [Fact]
-        public async Task Should_Stop_On_CancellationAsync()
+        public async Task Should_Stop_On_Cancellation()
         {
             // Given a service
             var repository = new ActivityRepository();

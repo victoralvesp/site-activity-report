@@ -45,14 +45,14 @@ namespace CrossOver.WebsiteActivity.Tests.Controller
             controller.RegisterNewActivity(TESTING_KEY, new() { Value = TESTING_VALUE });
 
             //Then the service should have been called
-            mock.Verify(rec => rec.Register(TESTING_KEY, TESTING_VALUE, It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()), Times.AtLeastOnce());
+            mock.Verify(rec => rec.Register(TESTING_KEY, TESTING_VALUE, It.IsAny<DateTime?>()), Times.AtLeastOnce());
         }
         [Fact]
         public void Register_New_Activity_Should_Return_500_When_Recording_Service_Throws()
         {
             //Given that the recording service is throwing
             var mock = Mock.Get(_recordingService);
-            mock.Setup(rec => rec.Register(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            mock.Setup(rec => rec.Register(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<DateTime?>()))
                 .Throws(new Exception());
             var controller = GetActivityController();
 

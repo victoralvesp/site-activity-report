@@ -19,7 +19,7 @@ namespace CrossOver.WebsiteActivity.Services
             _repo = repo;
         }
 
-        public void Register(string key, int activityValue, DateTime? registrationTime = null, CancellationToken cancellationToken = default)
+        public void Register(string key, int activityValue, DateTime? registrationTime = null)
         {
             registrationTime ??= DateTime.UtcNow;
             if (string.IsNullOrWhiteSpace(key))
@@ -33,21 +33,21 @@ namespace CrossOver.WebsiteActivity.Services
             };
 
             _toProcessQueue.Enqueue(activity);
-            EnsureProcessingIsStarted(cancellationToken);
+            EnsureProcessingIsStarted();
         }
 
-        private void EnsureProcessingIsStarted(CancellationToken cancellationToken = default)
+        private void EnsureProcessingIsStarted()
         {
             if (!_isProcessCycleRunning)
             {
-                _ = Task.Run(() => ProcessingCycle(cancellationToken));
+                _ = Task.Run(() => ProcessingCycle());
             }
         }
 
-        private void ProcessingCycle(CancellationToken cancellationToken)
+        private void ProcessingCycle()
         {
             _isProcessCycleRunning = true;
-            while (!cancellationToken.IsCancellationRequested && _toProcessQueue.TryDequeue(out var next))
+            while (_toProcessQueue.TryDequeue(out var next))
             {
                 _repo.PushActivity(next);
             }
