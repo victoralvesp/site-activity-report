@@ -45,8 +45,8 @@ namespace CrossOver.WebsiteActivity.Tests
 
         }
 
-        private ReportingService GetReportingService() => _provider.GetRequiredService<ReportingService>();
-        private RecordingService GetRecordingService() => _provider.GetRequiredService<RecordingService>();
+        private IReportingService GetReportingService() => _provider.GetRequiredService<IReportingService>();
+        private IRecordingService GetRecordingService() => _provider.GetRequiredService<IRecordingService>();
         private IHostedService GetPurgeService() => _provider.GetService<IEnumerable<IHostedService>>()!.First(hs => hs is JanitorHostedService);
 
         protected void PrepareRepository(ActivityRepository repository, int activitiesToRegister)
@@ -66,7 +66,7 @@ namespace CrossOver.WebsiteActivity.Tests
                 repository.PushActivity(activity);
             });
         }
-        protected void RegisterSeveralActivities(RecordingService service, params Models.Activity[] activitiesToRegister)
+        protected void RegisterSeveralActivities(IRecordingService service, params Models.Activity[] activitiesToRegister)
         {
             Parallel.ForEach(activitiesToRegister, (activity, state) =>
             {
