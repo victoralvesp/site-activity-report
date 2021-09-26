@@ -45,7 +45,84 @@ namespace CrossOver.WebsiteActivity.Tests.Services
             // Them a exception should be thrown
             reportingService.Invoking((serv) => serv.GetTotal(string.Empty)).Should().Throw<ArgumentException>();
         }
-        
+
+        [Fact]
+        public void Should_Keep_Total_Correct_After_Adding_New_Activity()
+        {
+            // Given a repository with several values
+            var key = TESTING_KEY;
+            var reportingService = new ReportingService(_biggerRepository);
+            // And a current total
+            var currentTotal = reportingService.GetTotal(key);
+            // When we add a new activity
+            var newActivity = RandomActivity(key);
+            _biggerRepository.PushActivity(newActivity);
+
+            //Then the total should increase by the value of the new activity
+            reportingService.GetTotal(key).Should().Be(currentTotal + newActivity.Value);
+        }
+        [Fact]
+        public void Should_Keep_Total_Correct_After_Removing_Activity()
+        {
+            // Given a repository with several values
+            var key = TESTING_KEY;
+            var reportingService = new ReportingService(_biggerRepository);
+            // And a current total
+            var currentTotal = reportingService.GetTotal(key);
+            // When we remove an activity
+            var activityToRemove = _biggerRepository.GetActivities(key).Last();
+            _biggerRepository.PurgeActivity(activityToRemove);
+
+            //Then the total should increase by the value of the new activity
+            reportingService.GetTotal(key).Should().Be(currentTotal - activityToRemove.Value);
+        }
+        [Fact]
+        public void Should_Not_Change_Total_After_Adding_Activity_With_Different_Key()
+        {
+            // Given a repository with several values
+            var key = TESTING_KEY;
+            var reportingService = new ReportingService(_biggerRepository);
+            // And a current total
+            var currentTotal = reportingService.GetTotal(key);
+            // When we remove an activity
+            var newActivity = RandomActivity($"{TESTING_KEY}+other");
+            _biggerRepository.PushActivity(newActivity);
+
+            //Then the total should increase by the value of the new activity
+            reportingService.GetTotal(key).Should().Be(currentTotal);
+        }
+        [Fact]
+        public void Should_Not_Change_Total_After_Removing_Activity_With_Different_Key()
+        {
+            // Given a repository with several values
+            var key = TESTING_KEY;
+            var reportingService = new ReportingService(_biggerRepository);
+            // And a current total
+            var currentTotal = reportingService.GetTotal(key);
+            // When we remove an activity
+            var newActivity = RandomActivity($"{TESTING_KEY}+other");
+            _biggerRepository.PushActivity(newActivity);
+            _biggerRepository.PurgeActivity(newActivity);
+
+            //Then the total should increase by the value of the new activity
+            reportingService.GetTotal(key).Should().Be(currentTotal);
+        }
+        [Fact]
+        public void Should_Not_Change_Total_After_Removing_Activity_With_Different_Key_When_Not_Contains()
+        {
+            // Given a repository with several values
+            var key = TESTING_KEY;
+            var reportingService = new ReportingService(_biggerRepository);
+            // And a current total
+            var currentTotal = reportingService.GetTotal(key);
+            // When we remove an activity
+            var newActivity = RandomActivity($"{TESTING_KEY}+other");
+            _biggerRepository.PurgeActivity(newActivity);
+
+            //Then the total should increase by the value of the new activity
+            reportingService.GetTotal(key).Should().Be(currentTotal);
+        }
+
 
         [Fact]
         public void Total_Should_Give_The_Total_For_A_Key()
