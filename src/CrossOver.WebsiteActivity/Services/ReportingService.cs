@@ -8,7 +8,7 @@ using CrossOver.WebsiteActivity.Repository;
 
 namespace CrossOver.WebsiteActivity.Services
 {
-
+    /// <inheritdoc/>
     public class ReportingService : IReportingService
     {
         private readonly IActivityRepository _repo;
@@ -21,6 +21,17 @@ namespace CrossOver.WebsiteActivity.Services
             _repo.OnAdded += (_, activity) => ProcessActivityAdded(activity);
             _repo.OnRemoved += (_, activity) => ProcessActivityRemoved(activity);
             ProcessCurrentKeys();
+        }
+        /// <inheritdoc/>
+        /// <exception cref="ArgumentException">Thrown when key is invalid</exception>
+        public long GetTotal(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException($"'{nameof(key)}' should not be null or whitespace.", nameof(key));
+            }
+
+            return _totalValuesIndex.GetValueOrDefault(key, 0);
         }
 
         private void ProcessCurrentKeys()
@@ -49,16 +60,6 @@ namespace CrossOver.WebsiteActivity.Services
         {
             int valueForKey = _repo.GetActivities(key).Sum(act => act.Value);
             _totalValuesIndex.AddOrUpdate(key, (_) => valueForKey, (_, currentTotal) => currentTotal + valueForKey);
-        }
-
-        public long GetTotal(string key)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new ArgumentException($"'{nameof(key)}' should not be null or whitespace.", nameof(key));
-            }
-
-            return _totalValuesIndex.GetValueOrDefault(key, 0);
         }
 
     }

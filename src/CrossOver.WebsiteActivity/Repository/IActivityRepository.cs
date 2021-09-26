@@ -2,6 +2,9 @@ using CrossOver.WebsiteActivity.Models;
 
 namespace CrossOver.WebsiteActivity.Repository
 {
+    /// <summary>
+    /// Manages storage for activities
+    /// </summary>
     public interface IActivityRepository
     {
         IEnumerable<string> Keys { get; }

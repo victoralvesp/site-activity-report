@@ -13,7 +13,7 @@ To start the Api run:
 dotnet run --project src/CrossOver.WebsiteActivity/CrossOver.WebsiteActivity.csproj
 ```
 
-The server will run at port `5001` and can be used through the following endpoints:
+The server will run at port `5001` with a swagger doc at `:5001/swagger/index.html`. The Api can be used through the following endpoints:
 
 To register new activities
 ```

@@ -6,6 +6,9 @@ using CrossOver.WebsiteActivity.Repository;
 
 namespace CrossOver.WebsiteActivity.HostedServices
 {
+    /// <summary>
+    /// Cleans out old activity values to ensure reporting only gets the right values
+    /// </summary>
     public class JanitorHostedService : BackgroundService
     {
         private readonly IActivityRepository _repository;
@@ -22,7 +25,7 @@ namespace CrossOver.WebsiteActivity.HostedServices
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _isExecuting = true;
-            while(!stoppingToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
                 var tasks = _repository.Keys.Select(key => Task.Run(() => PurgeOlderActivities(key)));
 

@@ -8,6 +8,9 @@ using CrossOver.WebsiteActivity.Repository;
 
 namespace CrossOver.WebsiteActivity.Services
 {
+    /// <summary>
+    /// Responsible for registering new activity values
+    /// </summary>
     public class RecordingService : IRecordingService
     {
         ConcurrentQueue<Activity> _toProcessQueue = new();
@@ -18,6 +21,14 @@ namespace CrossOver.WebsiteActivity.Services
         {
             _repo = repo;
         }
+
+        /// <summary>
+        /// Registers a new value in the repository
+        /// </summary>
+        /// <param name="key">Activity's key</param>
+        /// <param name="activityValue">Activity's value</param>
+        /// <param name="registrationTime">Registration time</param>
+        /// <exception cref="ArgumentException">Thrown when key is invalid</exception>
 
         public void Register(string key, int activityValue, DateTime? registrationTime = null)
         {
