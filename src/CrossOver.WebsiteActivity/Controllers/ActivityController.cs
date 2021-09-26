@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CrossOver.WebsiteActivity.Controllers;
 
+/// <summary>
+/// Controller for route /activity
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class ActivityController : ControllerBase
@@ -20,8 +23,14 @@ public class ActivityController : ControllerBase
         _reportingService = reportingService;
     }
 
+    /// <summary>
+    /// Registers a new activity with
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="activity"></param>
+    /// <returns></returns>
     [HttpPost("{key}")]
-    public IActionResult RegisterNewActivity(string key, [FromBody] ActivityValue activity)
+    public IActionResult RegisterNewActivity([FromRoute] string key, [FromBody] ActivityValue activity)
     {
         try
         {
@@ -35,7 +44,7 @@ public class ActivityController : ControllerBase
     }
 
     [HttpGet("{key}/total")]
-    public IActionResult GetActivityTotal(string key)
+    public IActionResult GetActivityTotal([FromRoute]string key)
     {
         try
         {

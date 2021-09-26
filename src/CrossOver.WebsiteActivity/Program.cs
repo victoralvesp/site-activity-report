@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+using CrossOver.WebsiteActivity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "CrossOver.WebsiteActivity", Version = "v1" });
 });
+
+builder.Services.RegisterActivityServices();
 
 var app = builder.Build();
 

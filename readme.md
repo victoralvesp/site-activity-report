@@ -1,16 +1,60 @@
-# Nome do projeto
+# Welcome to Site Activity Report 👋
 
-<!---Esses são exemplos. Veja https://shields.io para outras pessoas ou para personalizar este conjunto de escudos. Você pode querer incluir dependências, status do projeto e informações de licença aqui--->
+> Website activity and reporting program that adds activity events by duration for the recent hours
 
-![GitHub repo size](https://img.shields.io/github/repo-size/victoralvesp/site-activity-report?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/victoralvesp/site-activity-report?style=for-the-badge)
+## Summary
 
-> Linha adicional de texto informativo sobre o que o projeto faz. Sua introdução deve ter cerca de 2 ou 3 linhas. Não exagere, as pessoas não vão ler.
+A Api to register and get a report of a website activity
 
-As a alternative, check out [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+## Usage
 
-## 📝 License
+To start the Api run:
+```sh
+dotnet run --project src/CrossOver.WebsiteActivity/CrossOver.WebsiteActivity.csproj
+```
 
-This project is licensed under [LICENÇA](LICENSE.md).
+The server will run at port `5001` and can be used through the following endpoints:
 
-[⬆ Top](#nome-do-projeto)<br>
+To register new activities
+```
+POST /activity/{key}
+{
+"value": 4
+}
+response:
+(200)
+{}
+```
+
+
+To check total value for a activity
+```
+GET /activity/{key}/total
+
+response:
+{
+"value": 500
+}
+```
+
+
+
+## Run tests
+
+Run all the unit tests with
+
+```sh
+dotnet test tests/CrossOver.WebsiteActivity.Tests/CrossOver.WebsiteActivity.Tests.csproj --collect:\"XPlat Code Coverage\" --results-directory:TestResults
+```
+
+## Author
+
+👤 **Victor Alves**
+
+* Github: [@victoralvesp](https://github.com/victoralvesp)
+* LinkedIn: [@victoralvesp](https://linkedin.com/in/victoralvesp)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
