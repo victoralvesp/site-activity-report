@@ -8,7 +8,7 @@ using CrossOver.WebsiteActivity.Repository;
 
 namespace CrossOver.WebsiteActivity.Services
 {
-    public class RecordingService
+    public class RecordingService : IRecordingService
     {
         ConcurrentQueue<Activity> _toProcessQueue = new();
         private bool _isProcessCycleRunning;
@@ -19,7 +19,7 @@ namespace CrossOver.WebsiteActivity.Services
             _repo = repo;
         }
 
-        public void Register(string key, int activityValue, DateTime? registrationTime = null , CancellationToken cancellationToken = default)
+        public void Register(string key, int activityValue, DateTime? registrationTime = null, CancellationToken cancellationToken = default)
         {
             registrationTime ??= DateTime.UtcNow;
             if (string.IsNullOrWhiteSpace(key))
@@ -47,7 +47,7 @@ namespace CrossOver.WebsiteActivity.Services
         private void ProcessingCycle(CancellationToken cancellationToken)
         {
             _isProcessCycleRunning = true;
-            while(!cancellationToken.IsCancellationRequested && _toProcessQueue.TryDequeue(out var next))
+            while (!cancellationToken.IsCancellationRequested && _toProcessQueue.TryDequeue(out var next))
             {
                 _repo.PushActivity(next);
             }

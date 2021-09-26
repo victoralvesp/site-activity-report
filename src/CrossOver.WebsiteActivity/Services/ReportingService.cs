@@ -8,7 +8,8 @@ using CrossOver.WebsiteActivity.Repository;
 
 namespace CrossOver.WebsiteActivity.Services
 {
-    public class ReportingService
+
+    public class ReportingService : IReportingService
     {
         private readonly IActivityRepository _repo;
         private readonly ConcurrentDictionary<string, long> _totalValuesIndex = new();

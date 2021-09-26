@@ -9,11 +9,11 @@ namespace CrossOver.WebsiteActivity.Controllers;
 public class ActivityController : ControllerBase
 {
 
-    private readonly RecordingService _activityService;
-    private readonly ReportingService _reportingService;
+    private readonly IRecordingService _activityService;
+    private readonly IReportingService _reportingService;
     private readonly ILogger<ActivityController> _logger;
 
-    public ActivityController(ILogger<ActivityController> logger, RecordingService recordingService, ReportingService reportingService)
+    public ActivityController(ILogger<ActivityController> logger, IRecordingService recordingService, IReportingService reportingService)
     {
         _logger = logger;
         _activityService = recordingService;

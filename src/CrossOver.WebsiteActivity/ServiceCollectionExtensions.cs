@@ -14,8 +14,8 @@ namespace CrossOver.WebsiteActivity
         {
             services.AddSingleton<IActivityRepository, ActivityRepository>();
             services.AddHostedService<JanitorHostedService>();
-            services.AddScoped<RecordingService>();
-            services.AddScoped<ReportingService>();
+            services.AddScoped<IRecordingService, RecordingService>();
+            services.AddScoped<IReportingService, ReportingService>();
 
             return services;
         }
