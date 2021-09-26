@@ -54,7 +54,7 @@ namespace CrossOver.WebsiteActivity.Services
         {
             if (string.IsNullOrWhiteSpace(key))
             {
-                throw new ArgumentException($"'{nameof(key)}' não pode ser nulo nem espaço em branco.", nameof(key));
+                throw new ArgumentException($"'{nameof(key)}' should not be null or whitespace.", nameof(key));
             }
 
             return _totalValuesIndex.GetValueOrDefault(key, 0);

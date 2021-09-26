@@ -24,7 +24,7 @@ namespace CrossOver.WebsiteActivity.Services
             registrationTime ??= DateTime.UtcNow;
             if (string.IsNullOrWhiteSpace(key))
             {
-                throw new ArgumentException($"'{nameof(key)}' não pode ser nulo nem espaço em branco.", nameof(key));
+                throw new ArgumentException($"'{nameof(key)}' should not be null or whitespace.", nameof(key));
             }
 
             var activity = new Activity(key, activityValue)

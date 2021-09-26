@@ -9,6 +9,7 @@ namespace CrossOver.WebsiteActivity.HostedServices
     public class JanitorHostedService : BackgroundService
     {
         private readonly IActivityRepository _repository;
+        private bool _isExecuting;
 
         public JanitorHostedService(IActivityRepository repository)
         {
@@ -16,16 +17,19 @@ namespace CrossOver.WebsiteActivity.HostedServices
         }
 
         public TimeSpan ActivityHoldingTime { get; private set; } = TimeSpan.FromHours(12);
+        public bool IsExecuting { get => _isExecuting; set => _isExecuting = value; }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _isExecuting = true;
             while(!stoppingToken.IsCancellationRequested)
             {
                 var tasks = _repository.Keys.Select(key => Task.Run(() => PurgeOlderActivities(key)));
 
                 await Task.WhenAll(tasks);
-                await Task.Delay(TimeSpan.FromMinutes(1));
+                await Task.Delay(TimeSpan.FromSeconds(5));
             }
+            _isExecuting = false;
         }
 
         private void PurgeOlderActivities(string key)
