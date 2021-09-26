@@ -34,7 +34,7 @@ namespace CrossOver.WebsiteActivity.Tests.Services
         }
 
         [Fact]
-        public void Register_Should_Eventually_Add_Activity_Value_To_Repository()
+        public async Task Register_Should_Eventually_Add_Activity_Value_To_RepositoryAsync()
         {
             //Given a website with a well defined set of activities recorded
             var repository = new ActivityRepository();
@@ -44,7 +44,8 @@ namespace CrossOver.WebsiteActivity.Tests.Services
 
             //When register an activity
             var activity = RandomActivity(key);
-            reportingService.Register(activity.Key, activity.Value);
+            reportingService.Register(activity.Key, activity.Value, activity.RegisterDate);
+            await Task.Delay(100);
 
             //Then
             repository.GetActivities(key).Should().ContainEquivalentOf(activity);
