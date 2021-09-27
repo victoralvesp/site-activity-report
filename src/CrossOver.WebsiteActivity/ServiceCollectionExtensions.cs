@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CrossOver.WebsiteActivity.HostedServices;
 using CrossOver.WebsiteActivity.Repository;
 using CrossOver.WebsiteActivity.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CrossOver.WebsiteActivity
 {

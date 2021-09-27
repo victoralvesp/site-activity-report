@@ -1,8 +1,9 @@
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CrossOver.WebsiteActivity.HostedServices;
 using CrossOver.WebsiteActivity.Repository;
 using CrossOver.WebsiteActivity.Services;
-using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;

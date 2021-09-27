@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using CrossOver.WebsiteActivity.Models;
 
 namespace CrossOver.WebsiteActivity.Repository

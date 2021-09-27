@@ -1,6 +1,7 @@
 ﻿using CrossOver.WebsiteActivity.Models;
 using CrossOver.WebsiteActivity.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CrossOver.WebsiteActivity.Controllers;
 
