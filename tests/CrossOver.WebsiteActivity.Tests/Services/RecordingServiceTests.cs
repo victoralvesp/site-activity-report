@@ -60,7 +60,7 @@ namespace CrossOver.WebsiteActivity.Tests.Services
             var service = new RecordingService(_biggerRepository);
 
             // When requested the total for a empty key
-            // Them a exception should be thrown
+            // Then a exception should be thrown
             service.Invoking((serv) => serv.Register(string.Empty, 10)).Should().Throw<ArgumentException>();
         }
     }
